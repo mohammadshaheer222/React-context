@@ -1,23 +1,24 @@
-import { Component } from "react";
+import { React, useContext } from "react";
 import { ThemeContext } from "../Context/ThemeContext";
+import { BookContext } from "../Context/BookContext";
 
-export class BookList extends Component {
-  static contextType = ThemeContext; //ContextApi can do 2 ways .this is the first version, second version done in Navigation.jsx
-  render() {
-    console.log(this.context);
-    const { isLightTheme, light, dark } = this.context;
-    const theme = isLightTheme ? light : dark;
-    return (
-      <div
-        style={{ color: theme.syntax, background: theme.bg }}
-        className="book-list"
-      >
-        <ul>
-          <li style={{ background: theme.ui }}>The way of Kings</li>
-          <li style={{ background: theme.ui }}>The Name of the wind</li>
-          <li style={{ background: theme.ui }}>The Final Empire</li>
-        </ul>
-      </div>
-    );
-  }
-}
+const BookList = () => {
+  const { isLightTheme, light, dark } = useContext(ThemeContext);
+  const { books } = useContext(BookContext);
+  const theme = isLightTheme ? light : dark;
+  return (
+    <div
+      style={{ color: theme.syntax, background: theme.bg }}
+      className="book-list"
+    >
+      {books &&
+        books.map((book) => (
+          <ul key={book.id}>
+            <li style={{ background: theme.ui }}>{book.title}</li>
+          </ul>
+        ))}
+    </div>
+  );
+};
+
+export default BookList;
